@@ -2,10 +2,11 @@
 	import snek from '$lib/images/snek.png';
 	import powerup from '$lib/audio/powerup.wav';
 	import gameover from '$lib/audio/gameover.wav';
+	import { innerWidth } from 'svelte/reactivity/window';
 
 	// Grid size
 	const GRID_SIZE = 20;
-	const CELL_SIZE = 20;
+	const CELL_SIZE = $derived(Math.min(20, ((innerWidth.current as number) - 40) / GRID_SIZE));
 
 	// Game state
 	let direction = $state<'up' | 'down' | 'left' | 'right'>('right');
@@ -128,9 +129,28 @@
 				break;
 		}
 	}
+
+	function handlePointerdown(event: PointerEvent) {
+		let x = event.clientX / window.innerWidth - 0.5;
+		let y = event.clientY / window.innerHeight - 0.5;
+
+		if (Math.abs(x) > Math.abs(y)) {
+			if (x > 0) {
+				if (direction !== 'left') direction = 'right';
+			} else {
+				if (direction !== 'right') direction = 'left';
+			}
+		} else {
+			if (y > 0) {
+				if (direction !== 'up') direction = 'down';
+			} else {
+				if (direction !== 'down') direction = 'up';
+			}
+		}
+	}
 </script>
 
-<svelte:window onkeydown={handleKeydown} />
+<svelte:window onkeydown={handleKeydown} onpointerdown={handlePointerdown} />
 
 <div class="game-container">
 	<div class="score">Score: {score}</div>
