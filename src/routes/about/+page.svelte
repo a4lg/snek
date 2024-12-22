@@ -19,4 +19,6 @@
 			href="https://freesound.org/people/AceOfSpadesProduc100/sounds/341695">link</a
 		>, <a href="https://freesound.org/people/Mountain_Man/sounds/382310/">link</a>)
 	</p>
+
+	<p>You can find the <a href="https://github.com/Rich-Harris/snek">source code on GitHub</a>.</p>
 </div>
